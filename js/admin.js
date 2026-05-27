@@ -505,6 +505,55 @@ editorForm.addEventListener('submit', async (e) => {
   }
 });
 
+/* ===== IMAGE UPLOAD ===== */
+const edImageFile = document.getElementById('edImageFile');
+const edImageUploadBtn = document.getElementById('edImageUploadBtn');
+
+edImageUploadBtn.addEventListener('click', () => edImageFile.click());
+
+edImageFile.addEventListener('change', async () => {
+  const file = edImageFile.files[0];
+  if (!file) return;
+
+  if (file.size > 5 * 1024 * 1024) {
+    alert('Image too large. Max 5MB.');
+    edImageFile.value = '';
+    return;
+  }
+
+  const ext = file.name.split('.').pop();
+  const filename = `images/${Date.now()}-${Math.random().toString(36).slice(2, 6)}.${ext}`;
+
+  edImageUploadBtn.textContent = 'Uploading...';
+  edImageUploadBtn.disabled = true;
+
+  try {
+    const reader = new FileReader();
+    const base64 = await new Promise((resolve, reject) => {
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    const sha = await getFileSha(filename);
+    await ghFetch(`contents/${filename}`, 'PUT', {
+      message: `Upload ${filename}`,
+      content: base64,
+      sha: sha || undefined
+    });
+
+    const url = `https://raw.githubusercontent.com/${owner}/${repo}/main/${filename}`;
+    edImage.value = url;
+    edImageUploadBtn.textContent = 'Upload';
+    edImageUploadBtn.disabled = false;
+    edImageFile.value = '';
+  } catch (err) {
+    alert('Upload failed: ' + err.message);
+    edImageUploadBtn.textContent = 'Upload';
+    edImageUploadBtn.disabled = false;
+  }
+});
+
 /* ===== SETTINGS EDITOR ===== */
 const SETTINGS_PATH = 'site-config.json';
 const SETTINGS_FIELDS = [

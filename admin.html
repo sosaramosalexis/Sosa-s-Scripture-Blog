@@ -249,7 +249,13 @@
         </div>
         <div class="form-row">
           <label>Date <input type="date" id="edDate" required></label>
-          <label>Image URL <input type="url" id="edImage" placeholder="https://images.unsplash.com/..."></label>
+          <label>Image URL
+            <div class="img-url-row">
+              <input type="url" id="edImage" placeholder="https://images.unsplash.com/...">
+              <button type="button" class="btn btn-secondary btn-sm" id="edImageUploadBtn">Upload</button>
+            </div>
+          </label>
+          <input type="file" id="edImageFile" accept="image/*" style="display:none">
         </div>
         <label>Excerpt (shown on the blog grid) <textarea id="edExcerpt" rows="2" required></textarea></label>
         <label>Content (HTML allowed) <textarea id="edContent" rows="12" required></textarea></label>
@@ -262,6 +268,6 @@
     </main>
   </div>
 
-  <script src="js/admin.js?v=6"></script>
+  <script src="js/admin.js?v=7"></script>
 </body>
 </html>

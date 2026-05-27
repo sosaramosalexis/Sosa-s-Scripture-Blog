@@ -242,6 +242,9 @@ label input, label textarea { margin-top: 6px; }
 .editor-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 .editor-form label { margin-bottom: 16px; }
 .editor-form textarea#edContent { font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.5; }
+.img-url-row { display: flex; gap: 8px; margin-top: 6px; }
+.img-url-row input { flex: 1; }
+.img-url-row .btn { flex-shrink: 0; }
 .editor-actions { display: flex; gap: 12px; margin-top: 8px; }
 .form-msg { margin-top: 12px; font-size: 0.85rem; min-height: 20px; }
 .form-msg.success { color: var(--clr-success); }
