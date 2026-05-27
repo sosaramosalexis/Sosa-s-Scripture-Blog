@@ -211,5 +211,9 @@ if (subForm) {
 }
 
 /* ===== INIT ===== */
-loadConfig();
-loadPosts();
+Promise.all([
+  loadConfig().catch(() => {}),
+  loadPosts().catch(() => {})
+]).then(() => {
+  document.body.classList.add('config-ready');
+});
