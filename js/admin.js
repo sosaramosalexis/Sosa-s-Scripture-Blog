@@ -789,9 +789,6 @@ mfaDisableBtn.addEventListener('click', async () => {
   const savedRepo = localStorage.getItem('adminRepo');
   if (savedToken && savedOwner && savedRepo) {
     token = savedToken; owner = savedOwner; repo = savedRepo;
-    document.getElementById('loginToken').value = savedToken;
-    document.getElementById('loginOwner').value = savedOwner;
-    document.getElementById('loginRepo').value = savedRepo;
     showDashboard();
   }
 })();
