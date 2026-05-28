@@ -124,6 +124,10 @@ loginForm.addEventListener('submit', async (e) => {
   try {
     const { data, error } = await sbAuth.signInWithPassword({ email, password });
     if (error) throw error;
+    if (data?.factors === undefined) {
+      showDashboard();
+      return;
+    }
     const verified = (data?.factors || []).filter(f => f.type === 'totp' && f.status === 'verified');
     if (verified.length) {
       _mfaFactorId = verified[0].id;
@@ -159,6 +163,7 @@ async function showLoginMfaEnroll() {
   loginForm.style.display = 'none';
   loginMfaEnroll.style.display = '';
   loginMfaEnrollError.textContent = '';
+  loginMfaEnrollError.className = '';
   try {
     const { data, error } = await sbMfaEnroll();
     if (error) throw error;
@@ -166,7 +171,16 @@ async function showLoginMfaEnroll() {
     loginMfaSecret.textContent = data.totp.secret;
     loginMfaQr.innerHTML = '';
     new QRCode(loginMfaQr, { text: data.totp.qr_code, width: 180, height: 180, colorDark: '#1E3D63', colorLight: '#FFFFFF', correctLevel: QRCode.CorrectLevel.H });
-  } catch (err) { loginMfaEnrollError.textContent = 'Error starting MFA enrollment: ' + err.message; }
+  } catch (err) {
+    loginMfaEnrollError.textContent = 'MFA setup unavailable (' + err.message + '). ';
+    loginMfaEnrollError.className = 'warning';
+    const skip = document.createElement('button');
+    skip.id = 'mfa-skip-btn';
+    skip.textContent = 'Continue to Dashboard';
+    skip.className = 'btn';
+    skip.onclick = showDashboard;
+    loginMfaEnroll.appendChild(skip);
+  }
 }
 
 loginMfaEnrollBtn.addEventListener('click', async () => {
@@ -201,6 +215,8 @@ function showView(view) {
     loginMfaEnrollCode.value = '';
     loginMfaEnrollError.textContent = '';
     loginMfaEnrollBtn.disabled = false;
+    const skipBtn = document.getElementById('mfa-skip-btn');
+    if (skipBtn) skipBtn.remove();
   }
 }
 
@@ -548,7 +564,11 @@ async function loadMfaStatus() {
       mfaEnroll.style.display = '';
       mfaStatus.innerHTML = 'Status: <span class="mfa-disabled">Disabled</span>';
     }
-  } catch (err) { mfaStatus.innerHTML = 'Status: <span class="mfa-disabled">Error</span>'; }
+  } catch (err) {
+    mfaStatus.innerHTML = 'Status: <span class="mfa-disabled">Not Available</span>';
+    mfaEnroll.style.display = 'none';
+    mfaActive.style.display = 'none';
+  }
 }
 
 mfaStartEnrollBtn.addEventListener('click', async () => {
