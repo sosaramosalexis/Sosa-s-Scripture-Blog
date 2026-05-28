@@ -188,9 +188,7 @@ loginMfaEnrollBtn.addEventListener('click', async () => {
   loginMfaEnrollError.textContent = 'Verifying...';
   loginMfaEnrollBtn.disabled = true;
   try {
-    const { data: chal, error: chalErr } = await sbMfaChallenge(_loginEnrollFactorId);
-    if (chalErr) throw chalErr;
-    const { error: verErr } = await sbMfaVerify(_loginEnrollFactorId, chal.id, code);
+    const { error: verErr } = await sbMfaVerify(null, null, code);
     if (verErr) throw verErr;
     showDashboard();
   } catch (err) {
@@ -589,9 +587,7 @@ mfaVerifyBtn.addEventListener('click', async () => {
   mfaEnrollMsg.textContent = 'Verifying...'; mfaEnrollMsg.className = 'form-msg';
   mfaVerifyBtn.disabled = true;
   try {
-    const { data: chal, error: chalErr } = await sbMfaChallenge(window._mfaEnrollFactorId);
-    if (chalErr) throw chalErr;
-    const { error: verErr } = await sbMfaVerify(window._mfaEnrollFactorId, chal.id, code);
+    const { error: verErr } = await sbMfaVerify(null, null, code);
     if (verErr) throw verErr;
     mfaEnrollMsg.textContent = 'MFA enabled!'; mfaEnrollMsg.className = 'form-msg success';
     mfaEnrollStep.style.display = 'none';
