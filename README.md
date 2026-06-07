@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="https://placehold.co/120x179" width="90" alt="Sosa-s-Scripture-Blog logo">
+  <!-- Replace src with your 784×1168 logo image (displayed at 90px wide) -->
+</p>
+
 [![GitHub](https://img.shields.io/badge/GitHub-sosaramosalexis/Sosa-s-Scripture-Blog-181717?logo=github)](https://github.com/sosaramosalexis/Sosa-s-Scripture-Blog)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![JavaScript](https://img.shields.io/badge/javascript-F7DF1E?logo=javascript)]()
