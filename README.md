@@ -6,4 +6,4 @@
 
 A Christian blog — statically hosted on GitHub Pages.
 
-**Site:** https://sosramalex.github.io/Sosa-s-Scripture-Blog/
+**Site:** https://sosaramosalexis.github.io/Sosa-s-Scripture-Blog/
